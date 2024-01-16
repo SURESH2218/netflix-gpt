@@ -4,14 +4,12 @@ import { Validation } from "../utils/Validation";
 import { auth } from "../utils/firebase";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
 
 const Login = () => {
   const [isSignInForm, setisSignInForm] = useState(true);
   const [errormessage, seterrormessage] = useState(null);
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const email = useRef(null);
@@ -51,7 +49,6 @@ const Login = () => {
                   photoURL: photoURL,
                 })
               );
-              navigate("/browse");
             })
             .catch((error) => {
               seterrormessage(error.message);
@@ -74,7 +71,6 @@ const Login = () => {
           // Signed in
           const user = userCredential.user;
           console.log(user);
-          navigate("/browse");
           // ...
         })
         .catch((error) => {
@@ -101,7 +97,7 @@ const Login = () => {
       <form
         onSubmit={(e) => e.preventDefault()}
         action=""
-        className="w-3/12 bg-black absolute left-0 right-0 my-36 mx-auto p-7 rounded-md bg-opacity-80 "
+        className="w-80 bg-black absolute left-0 right-0 my-36 mx-auto p-7 rounded-md bg-opacity-80 "
       >
         <h1 className="font-bold text-white text-2xl pb-2">
           {isSignInForm ? "Sign In" : "Sign Up"}
@@ -128,7 +124,7 @@ const Login = () => {
         />
         <p className="text-red-600 font-bold text-lg py-2">{errormessage}</p>
         <button
-          className="p-2 my-4 w-full bg-red-600 rounded text-white"
+          className="p-2 my-4 w-full bg-red-600 rounded text-white hover:bg-red-700"
           onClick={handleValidation}
         >
           {isSignInForm ? "Sign In" : "Sign Up"}
