@@ -8,5 +8,5 @@ export const Validation = (email, password, user) => {
   if (!isUserValid) return "username is not valid";
   if (!isEmailValid) return "Email is not valid";
   if (!isPassValid) return "password is not valid";
-  return "You are good to go...";
+  return null;
 };

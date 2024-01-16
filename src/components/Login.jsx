@@ -1,24 +1,88 @@
 import React, { useRef, useState } from "react";
 import Header from "./Header";
 import { Validation } from "../utils/Validation";
+import { auth } from "../utils/firebase";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addUser } from "../utils/userSlice";
 
 const Login = () => {
   const [isSignInForm, setisSignInForm] = useState(true);
   const [errormessage, seterrormessage] = useState(null);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-//   const name = useRef(null);
   const email = useRef(null);
   const password = useRef(null);
+  // const name = useRef(null);
 
   const handleValidation = () => {
     const message = Validation(
       email.current.value,
-      password.current.value,
-    //   name.current.value
+      password.current.value
+      // name.current.value
     );
     seterrormessage(message);
     // console.log(email.current.value, password.current.value);
     // console.log(message);
+    if (message) return;
+
+    if (!isSignInForm) {
+      createUserWithEmailAndPassword(
+        auth,
+        email.current.value,
+        password.current.value
+      )
+        .then((userCredential) => {
+          const user = userCredential.user;
+          updateProfile(user, {
+            // displayName: name.current.value,
+            photoURL:
+              "https://th.bing.com/th/id/OIP.3l2nfzcHhMemSZooiH3B3AHaFj?rs=1&pid=ImgDetMain",
+          })
+            .then(() => {
+              const { uid, email, photoURL } = auth.currentUser;
+              dispatch(
+                addUser({
+                  uid: uid,
+                  email: email,
+                  photoURL: photoURL,
+                })
+              );
+              navigate("/browse");
+            })
+            .catch((error) => {
+              seterrormessage(error.message);
+            });
+          console.log(user);
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          seterrormessage(errorCode + errorMessage);
+          // ..
+        });
+    } else {
+      signInWithEmailAndPassword(
+        auth,
+        email.current.value,
+        password.current.value
+      )
+        .then((userCredential) => {
+          // Signed in
+          const user = userCredential.user;
+          console.log(user);
+          navigate("/browse");
+          // ...
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          // const errorMessage = error.message;
+          seterrormessage(errorCode);
+        });
+    }
   };
   const toggleButton = () => {
     setisSignInForm(!isSignInForm);
@@ -38,7 +102,6 @@ const Login = () => {
         onSubmit={(e) => e.preventDefault()}
         action=""
         className="w-3/12 bg-black absolute left-0 right-0 my-36 mx-auto p-7 rounded-md bg-opacity-80 "
-        onClick={handleValidation}
       >
         <h1 className="font-bold text-white text-2xl pb-2">
           {isSignInForm ? "Sign In" : "Sign Up"}
@@ -64,7 +127,10 @@ const Login = () => {
           className="p-2 my-2 w-full rounded"
         />
         <p className="text-red-600 font-bold text-lg py-2">{errormessage}</p>
-        <button className="p-2 my-4 w-full bg-red-600 rounded text-white">
+        <button
+          className="p-2 my-4 w-full bg-red-600 rounded text-white"
+          onClick={handleValidation}
+        >
           {isSignInForm ? "Sign In" : "Sign Up"}
         </button>
         <p
