@@ -6,6 +6,7 @@ const appStore = configureStore({
   reducer: {
     user: userSlice,
     movies: movieSlice,
+    // trailer:movieSlice.trailer
   },
 });
 
