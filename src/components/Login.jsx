@@ -90,7 +90,7 @@ const Login = () => {
       <Header />
       <div>
         <img
-          className="absolute bg-gradient-to-b from-black w-screen aspect-video"
+          className="absolute bg-gradient-to-b from-black w-screen aspect-video h-screen object-cover"
           src={BG_URL}
           alt="bgImg"
         />
