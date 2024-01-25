@@ -59,8 +59,10 @@ const Header = () => {
               className="appearance-none px-2 py-1 outline-none rounded-md"
               onChange={languageChange}
             >
-              {SUPPORTED_LANGUAGES.map((lang) => (
-                <option value={lang.identifier}>{lang.name}</option>
+              {SUPPORTED_LANGUAGES.map((lang, index) => (
+                <option key={index} value={lang.identifier}>
+                  {lang.name}
+                </option>
               ))}
             </select>
           )}

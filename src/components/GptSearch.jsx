@@ -7,7 +7,7 @@ const GptSearch = () => {
   return (
     <div className="">
       <img
-        className="absolute bg-gradient-to-b from-black w-screen aspect-video blur-sm"
+        className="fixed bg-gradient-to-b from-black w-screen aspect-video blur-sm"
         src={BG_URL}
         alt="bgImg"
       />
