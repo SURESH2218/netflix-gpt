@@ -1,7 +1,9 @@
-import Login from "./Login";
-import Browse from "./Browse";
+// Assuming you have a route setup similar to this
 import { createBrowserRouter } from "react-router-dom";
 import { RouterProvider } from "react-router-dom";
+import Login from "./Login";
+import Browse from "./Browse";
+import MovieDetails from "./MovieDetails"; // Import the new component
 
 const Body = () => {
   const appRouter = createBrowserRouter([
@@ -12,6 +14,10 @@ const Body = () => {
     {
       path: "/browse",
       element: <Browse />,
+    },
+    {
+      path: "/movie/:id", // Define the new route for movie details
+      element: <MovieDetails />,
     },
   ]);
 

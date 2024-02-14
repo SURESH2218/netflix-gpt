@@ -23,4 +23,4 @@ export const SUPPORTED_LANGUAGES = [
 ];
 
 export const OPEN_API_KEY =
-  "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";
+  "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";
